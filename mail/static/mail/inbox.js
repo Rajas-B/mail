@@ -92,7 +92,7 @@ function load_mailbox(mailbox) {
    }
    document.querySelector('#emails-table').append(row);
    if (content.read) {
-     document.querySelector(`#td${content.id}`).style.backgroundColor = '#e8fbff';
+     document.querySelector(`#td${content.id}`).style.backgroundColor = '#cfcfcf';
    }
  }
 
@@ -151,8 +151,9 @@ function reply() {
   // console.log(replyRecipient);
   document.querySelector('#reply-recipient').value = replyRecipient;
   document.querySelector('#reply-recipient').disabled = true;
-  document.querySelector('#reply-subject').value = '';
-  document.querySelector('#reply-body').value = '';
+  document.querySelector('#reply-subject').value = `Re: ${document.querySelector('#email-subject').innerHTML}`;
+  console.log(document.querySelector('#email-subject').innerHTML);
+  document.querySelector('#reply-body').value = `On ${document.querySelector('#email-timestamp').innerHTML}, ${replyRecipient} wrote: ${document.querySelector('#email-body').innerHTML} `;
   document.querySelector('#reply-form').onsubmit = async () => {
      var1 = JSON.stringify({
       recipients: replyRecipient,
@@ -170,6 +171,7 @@ function reply() {
         document.querySelector('#reply-recipient').value = '';
         document.querySelector('#reply-subject').value = '';
         document.querySelector('#reply-body').value = '';
+        document.querySelector('#reply-recipient').disabled = false;
           });
       return false;
     }
@@ -177,6 +179,7 @@ function reply() {
 function forward(){
   document.querySelector('#compose-reply').style.display = 'block';
   document.querySelector('#reply-recipient').value = '';
+  document.querySelector('#reply-recipient').disabled = false;
   replySubject = document.querySelector('#email-subject').innerHTML;
   replyBody = document.querySelector('#email-body').innerHTML;
   document.querySelector('#reply-subject').value = document.querySelector('#email-subject').innerHTML;
